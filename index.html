@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#071427">
 <link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -156,9 +160,84 @@ body::after{
 .chatbox{background:rgba(7,17,32,.70)!important;backdrop-filter:blur(10px)}
 .logo{box-shadow:0 0 28px rgba(81,212,255,.25),0 0 50px rgba(76,240,179,.12)}
 
+/* ===== PANTALLA DE BIENVENIDA ===== */
+#splash{position:fixed;inset:0;z-index:999;background:radial-gradient(circle at 30% 15%,rgba(57,230,255,.14),transparent 45%),radial-gradient(circle at 80% 80%,rgba(61,255,176,.10),transparent 45%),linear-gradient(180deg,#040a13,#081423 55%,#07111f);display:flex;align-items:center;justify-content:center;overflow:hidden;transition:opacity .5s ease}
+#splash.hide{opacity:0;pointer-events:none}
+.splash-bg{position:absolute;inset:0;overflow:hidden}
+.splash-bg svg{position:absolute;opacity:.32;filter:drop-shadow(0 0 14px rgba(57,230,255,.25))}
+.splash-bg .spectrum{left:0;top:12%;width:100%;height:70px}
+.splash-bg .benzene{left:6%;bottom:10%;width:110px;height:110px;animation:molSpin 24s linear infinite}
+.splash-bg .microscope{right:8%;top:14%;width:80px;height:80px}
+.splash-bg .dna{right:4%;bottom:6%;width:54px;height:150px}
+.splash-inner{position:relative;z-index:1;text-align:center;padding:0 28px;max-width:420px}
+.splash-logo{font-size:44px;margin-bottom:14px;filter:drop-shadow(0 0 20px rgba(57,230,255,.4))}
+.splash-inner h1{font-family:'Sora',Inter,sans-serif;font-weight:700;font-size:19px;line-height:1.35;color:#dff3ff;margin:0 0 8px}
+.splash-inner h1 span{display:block;font-size:26px;font-weight:800;margin-top:4px;letter-spacing:.01em;background:linear-gradient(90deg,#39e6ff,#3dffb0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.splash-formula{position:absolute;font-family:Consolas,monospace;font-weight:700;font-size:14px;color:rgba(57,230,255,.28);white-space:nowrap;opacity:.6}
+.splash-formula.sf1{left:8%;top:20%}
+.splash-formula.sf2{right:6%;top:38%;color:rgba(167,139,250,.28)}
+.splash-formula.sf3{left:10%;bottom:22%;color:rgba(61,255,176,.26);font-size:12px}
+.splash-molecule{position:absolute;width:80px;height:80px;opacity:.3;animation:molSpin 20s linear infinite}
+.splash-molecule.sm1{right:14%;bottom:26%}
+.loader-ring{width:100px;height:100px;margin:16px auto 6px;display:block}
+#loaderArc{transition:stroke-dashoffset .12s linear}
+.splash-credit{display:block;margin-top:10px;font-size:11px;color:#7f97ad;letter-spacing:.02em}
+.splash-logo i{font-size:40px;background:linear-gradient(135deg,#39e6ff,#3dffb0);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* Credito fijo visible en toda la app */
+.dev-credit{position:fixed;right:10px;bottom:6px;z-index:15;font-size:10px;color:rgba(159,183,209,.55);letter-spacing:.01em;pointer-events:none;background:rgba(7,17,32,.55);padding:2px 8px;border-radius:999px;backdrop-filter:blur(4px)}
+@media(max-width:980px){.dev-credit{right:8px;bottom:calc(4px + 58px)}}
+
+/* Tipografia mas atractiva en toda la app */
+h1,h3,.brand b,.splash-inner h1{font-family:'Sora',Inter,sans-serif;font-weight:700}
+.logo i{font-size:20px;background:linear-gradient(135deg,#39e6ff,#3dffb0);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* Mas relieve/color en iconos e insignias, menos "plano" */
+.kpi-icon{box-shadow:0 4px 16px rgba(57,230,255,.16),inset 0 1px 0 rgba(255,255,255,.06)}
+.kpi-icon i{font-size:20px}
+.nav button .ic i{font-size:16px}
+.badge i,.pill i{vertical-align:1px}
+.chem-orb{opacity:.74}
+.molecule{opacity:.26}
+.chem-formula{opacity:.85}
+
+/* Barra de navegacion inferior (mobile) */
+.nav-bottom{display:none}
+@media(max-width:980px){
+  .side .nav{display:none}
+  .nav-bottom{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(9,19,33,.94);backdrop-filter:blur(16px);border-top:1px solid var(--line);padding:7px 4px calc(6px + env(safe-area-inset-bottom));justify-content:space-around}
+  .nav-bottom button{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:3px;color:#5b7594;font-size:9px;padding:4px 4px;flex:1;font-family:Inter,sans-serif}
+  .nav-bottom button i{font-size:19px}
+  .nav-bottom button.active{color:#39e6ff}
+  .main{padding-bottom:74px}
+}
+
 </style>
 </head>
 <body>
+<div id="splash">
+  <div class="splash-bg" aria-hidden="true">
+    <svg class="spectrum" viewBox="0 0 400 90" preserveAspectRatio="none"><path d="M0,70 L30,68 L55,20 L70,75 L95,72 L115,45 L130,72 L160,15 L180,70 L210,68 L230,50 L250,72 L280,72 L300,10 L320,72 L400,70" fill="none" stroke="#39e6ff" stroke-width="2"/></svg>
+    <svg class="benzene" viewBox="0 0 100 100"><polygon points="50,6 90,28 90,72 50,94 10,72 10,28" fill="none" stroke="#3dffb0" stroke-width="3"/><circle cx="50" cy="50" r="26" fill="none" stroke="#3dffb0" stroke-width="2"/></svg>
+    <svg class="microscope" viewBox="0 0 64 64"><path d="M20 54h24M32 54V40M20 40h24l-4-8H24l-4 8zM26 32l10-18M40 8l-8 6" fill="none" stroke="#a78bfa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="36" cy="14" r="4" fill="none" stroke="#a78bfa" stroke-width="3"/></svg>
+    <svg class="dna" viewBox="0 0 60 160"><path d="M6 4C40 30 6 50 6 80S40 130 6 156" fill="none" stroke="#ff6ec7" stroke-width="2.5"/><path d="M54 4C20 30 54 50 54 80S20 130 54 156" fill="none" stroke="#39e6ff" stroke-width="2.5"/><line x1="10" y1="20" x2="50" y2="20" stroke="#3dffb0" stroke-width="1.5"/><line x1="12" y1="50" x2="48" y2="50" stroke="#3dffb0" stroke-width="1.5"/><line x1="10" y1="80" x2="50" y2="80" stroke="#3dffb0" stroke-width="1.5"/><line x1="12" y1="110" x2="48" y2="110" stroke="#3dffb0" stroke-width="1.5"/><line x1="10" y1="140" x2="50" y2="140" stroke="#3dffb0" stroke-width="1.5"/></svg>
+    <div class="splash-formula sf1">C₈H₁₈O + H₂O</div>
+    <div class="splash-formula sf2">NaCl · Ca²⁺ · SO₄²⁻</div>
+    <div class="splash-formula sf3">Fe²⁺ + 2 OH⁻ → Fe(OH)₂</div>
+    <div class="splash-molecule sm1"><svg viewBox="0 0 100 100"><g fill="none" stroke="#39e6ff" stroke-width="2.5"><line x1="26" y1="40" x2="50" y2="26"/><line x1="50" y1="26" x2="74" y2="40"/><line x1="74" y1="40" x2="66" y2="66"/><line x1="66" y1="66" x2="35" y2="66"/><line x1="35" y1="66" x2="26" y2="40"/></g><g fill="#0a1a2c" stroke="#3dffb0" stroke-width="3"><circle cx="26" cy="40" r="5"/><circle cx="50" cy="26" r="5"/><circle cx="74" cy="40" r="5"/><circle cx="66" cy="66" r="5"/><circle cx="35" cy="66" r="5"/></g></svg></div>
+  </div>
+  <div class="splash-inner">
+    <div class="splash-logo"><i class="ti ti-robot-face" aria-hidden="true"></i></div>
+    <h1>Bienvenido a<br><span>Consultas de Formulaciones de PQ</span></h1>
+    <svg class="loader-ring" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="42" fill="none" stroke="#16324a" stroke-width="8"/>
+      <circle id="loaderArc" cx="50" cy="50" r="42" fill="none" stroke="url(#gload)" stroke-width="8" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="264" transform="rotate(-90 50 50)"/>
+      <defs><linearGradient id="gload" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#39e6ff"/><stop offset="100%" stop-color="#3dffb0"/></linearGradient></defs>
+      <text id="loaderPct" x="50" y="56" text-anchor="middle" font-size="18" font-weight="700" fill="#eef6ff" font-family="Sora,sans-serif">0%</text>
+    </svg>
+    <span class="splash-credit">Desarrollado por: Ing. Freddy Polo</span>
+  </div>
+</div>
 
 <div class="chem-bg" aria-hidden="true">
   <div class="chem-orb o1"></div>
@@ -333,57 +412,65 @@ body::after{
 </div>
 
 <div class="app">
+<div class="dev-credit">Desarrollado por: Ing. Freddy Polo</div>
 <aside class="side">
-  <div class="brand"><div class="logo">🧪</div><div><b>Bot Técnico PQ</b><span>Fórmulas + recomendación</span></div></div>
+  <div class="brand"><div class="logo"><i class="ti ti-robot-face" aria-hidden="true"></i></div><div><b>Bot Técnico PQ</b><span>Fórmulas + recomendación</span></div></div>
   <div class="nav">
-    <button class="active" data-v="dash"><span class="ic">📊</span> Resumen ejecutivo</button>
-    <button data-v="formula"><span class="ic">🔬</span> Consulta de fórmula</button>
-    <button data-v="chat"><span class="ic">💬</span> Chatbot de fórmulas</button>
-    <button data-v="tecnica"><span class="ic">⚙️</span> Consulta técnica</button>
-    <button data-v="metodo"><span class="ic">📐</span> Metodología</button>
+    <button class="active" data-v="dash"><span class="ic"><i class="ti ti-chart-bar" aria-hidden="true"></i></span> Resumen ejecutivo</button>
+    <button data-v="formula"><span class="ic"><i class="ti ti-microscope" aria-hidden="true"></i></span> Consulta de fórmula</button>
+    <button data-v="chat"><span class="ic"><i class="ti ti-message-circle-2" aria-hidden="true"></i></span> Chatbot de fórmulas</button>
+    <button data-v="tecnica"><span class="ic"><i class="ti ti-settings" aria-hidden="true"></i></span> Consulta técnica</button>
+    <button data-v="metodo"><span class="ic"><i class="ti ti-ruler-2" aria-hidden="true"></i></span> Metodología</button>
   </div>
   <div class="foot">Base offline integrada. Los resultados de composición se calculan exclusivamente con las fórmulas precargadas en este archivo.</div>
 </aside>
+<nav class="nav-bottom">
+  <button class="active" data-v="dash"><i class="ti ti-chart-bar" aria-hidden="true"></i><span>Resumen</span></button>
+  <button data-v="formula"><i class="ti ti-microscope" aria-hidden="true"></i><span>Fórmula</span></button>
+  <button data-v="chat"><i class="ti ti-message-circle-2" aria-hidden="true"></i><span>Chat</span></button>
+  <button data-v="tecnica"><i class="ti ti-settings" aria-hidden="true"></i><span>Técnica</span></button>
+  <button data-v="metodo"><i class="ti ti-ruler-2" aria-hidden="true"></i><span>Método</span></button>
+</nav>
 <main class="main">
 <section id="dash" class="view active">
- <div class="top"><div class="title"><h1>📊 Resumen ejecutivo</h1><p>Consulta técnica y composición de productos de Planta Química.</p></div><span class="badge">🟢 Base local · sin conexión</span></div>
+ <div class="top"><div class="title"><h1><i class="ti ti-chart-bar" aria-hidden="true" style="color:#39e6ff;margin-right:6px"></i>Resumen ejecutivo</h1><p>Consulta técnica y composición de productos de Planta Química.</p></div><span class="badge"><i class="ti ti-circle-filled" aria-hidden="true" style="font-size:8px;color:#3dffb0;margin-right:5px"></i>Base local · sin conexión</span></div>
  <div class="grid kpis">
-  <div class="card kpi"><div class="kpi-icon">⚗️</div><div class="n" id="kProd"></div><div class="l">Productos con fórmula</div></div>
-  <div class="card kpi"><div class="kpi-icon">🧬</div><div class="n" id="kLines"></div><div class="l">Líneas de formulación</div></div>
-  <div class="card kpi"><div class="kpi-icon">🧫</div><div class="n" id="kMP"></div><div class="l">Materias primas distintas</div></div>
-  <div class="card kpi"><div class="kpi-icon">📦</div><div class="n" id="kStock"></div><div class="l">Registros de stock/base</div></div>
+  <div class="card kpi"><div class="kpi-icon"><i class="ti ti-flask-2" aria-hidden="true" style="color:#39e6ff"></i></div><div class="n" id="kProd"></div><div class="l">Productos con fórmula</div></div>
+  <div class="card kpi"><div class="kpi-icon"><i class="ti ti-atom-2" aria-hidden="true" style="color:#3dffb0"></i></div><div class="n" id="kLines"></div><div class="l">Líneas de formulación</div></div>
+  <div class="card kpi"><div class="kpi-icon"><i class="ti ti-test-pipe" aria-hidden="true" style="color:#a78bfa"></i></div><div class="n" id="kMP"></div><div class="l">Materias primas distintas</div></div>
+  <div class="card kpi"><div class="kpi-icon"><i class="ti ti-package" aria-hidden="true" style="color:#ffcf4d"></i></div><div class="n" id="kStock"></div><div class="l">Registros de stock/base</div></div>
  </div><br>
  <div class="grid two">
-  <div class="card"><h3>🧠 Qué puede responder</h3><div class="step"><i>1</i><div><strong>Composición completa</strong><p>Componentes, cantidad, porcentaje calculado, densidad, origen, lead time y compuesto.</p></div></div><div class="step"><i>2</i><div><strong>Consultas naturales</strong><p>“¿Qué tiene BX715?”, “¿qué porcentaje de SV-0765 tiene BX715?”, “¿qué productos usan QO-0941?” o “¿qué fórmulas usan SV-0701 y SV-0712?”.</p></div></div><div class="step"><i>3</i><div><strong>Comparación</strong><p>Compara dos productos e identifica componentes comunes y exclusivos.</p></div></div></div>
-  <div class="card"><h3>✅ Control de fórmula</h3><p class="small">El porcentaje se calcula sobre el total real cargado de cada producto: <b>% = cantidad del componente / suma de cantidades × 100</b>.</p><div id="quality"></div></div>
+  <div class="card"><h3><i class="ti ti-brain" aria-hidden="true" style="color:#a78bfa;margin-right:6px"></i>Qué puede responder</h3><div class="step"><i>1</i><div><strong>Composición completa</strong><p>Componentes, cantidad, porcentaje calculado, densidad, origen, lead time y compuesto.</p></div></div><div class="step"><i>2</i><div><strong>Consultas naturales</strong><p>“¿Qué tiene BX715?”, “¿qué porcentaje de SV-0765 tiene BX715?”, “¿qué productos usan QO-0941?” o “¿qué fórmulas usan SV-0701 y SV-0712?”.</p></div></div><div class="step"><i>3</i><div><strong>Comparación</strong><p>Compara dos productos e identifica componentes comunes y exclusivos.</p></div></div></div>
+  <div class="card"><h3><i class="ti ti-circle-check" aria-hidden="true" style="color:#3dffb0;margin-right:6px"></i>Control de fórmula</h3><p class="small">El porcentaje se calcula sobre el total real cargado de cada producto: <b>% = cantidad del componente / suma de cantidades × 100</b>.</p><div id="quality"></div></div>
  </div>
 </section>
 <section id="formula" class="view">
- <div class="top"><div class="title"><h1>🔬 Consulta de fórmula</h1><p>Buscá un producto y revisá su composición completa.</p></div></div>
+ <div class="top"><div class="title"><h1><i class="ti ti-microscope" aria-hidden="true" style="color:#39e6ff;margin-right:6px"></i>Consulta de fórmula</h1><p>Buscá un producto y revisá su composición completa.</p></div></div>
  <div class="card">
-   <div class="toolbar"><input id="prodSearch" list="products" placeholder="🔎 Ej.: BX715, IC7058, CYB636"><datalist id="products"></datalist><button class="primary" onclick="showFormula()">🧪 Ver fórmula</button></div>
+   <div class="toolbar"><input id="prodSearch" list="products" placeholder="Ej.: BX715, IC7058, CYB636"><datalist id="products"></datalist><button class="primary" onclick="showFormula()"><i class="ti ti-flask-2" aria-hidden="true" style="margin-right:5px"></i>Ver fórmula</button></div>
    <div id="formulaSummary" style="margin-top:14px"></div>
    <div class="tablewrap" style="margin-top:12px"><table><thead><tr><th>Componente</th><th>Cantidad</th><th>UM</th><th>% fórmula</th><th>Densidad</th><th>Compuesto</th><th>Origen</th><th>Lead time</th></tr></thead><tbody id="formulaRows"></tbody></table></div>
  </div>
 </section>
 <section id="chat" class="view">
- <div class="top"><div class="title"><h1>💬 Chatbot de fórmulas</h1><p>Consultas rápidas sobre composición, porcentajes, materias primas y comparación.</p></div></div>
+ <div class="top"><div class="title"><h1><i class="ti ti-message-circle-2" aria-hidden="true" style="color:#39e6ff;margin-right:6px"></i>Chatbot de fórmulas</h1><p>Consultas rápidas sobre composición, porcentajes, materias primas y comparación.</p></div></div>
  <div class="card">
   <div class="chatbox" id="chatbox"><div class="msg bot">Podés consultar por producto, materia prima o nombre de compuesto. También puedo cruzar varios componentes y decirte qué fórmulas los utilizan.</div></div>
   <div class="hint"><button onclick="askHint('¿Qué tiene BX715?')">¿Qué tiene BX715?</button><button onclick="askHint('¿Qué porcentaje de SV-0765 tiene BX715?')">% de una MP</button><button onclick="askHint('¿Qué productos usan QO-0941?')">Productos que usan una MP</button><button onclick="askHint('¿Qué fórmulas usan SV-0701 y SV-0712?')">Cruzar componentes</button><button onclick="askHint('¿Qué productos contienen Metanol?')">Buscar por compuesto</button><button onclick="askHint('Compará BX715 con BX707')">Comparar fórmulas</button></div>
-  <div class="ask"><input id="q" placeholder="💭 Escribí tu pregunta..." onkeydown="if(event.key==='Enter')send()"><button class="primary" onclick="send()">➤ Preguntar</button></div>
+  <div class="ask"><input id="q" placeholder="Escribí tu pregunta..." onkeydown="if(event.key==='Enter')send()"><button class="primary" onclick="send()">Preguntar<i class="ti ti-send-2" aria-hidden="true" style="margin-left:5px"></i></button></div>
  </div>
 </section>
 <section id="tecnica" class="view">
- <div class="top"><div class="title"><h1>⚙️ Consulta técnica guiada</h1><p>Estructura del bot de recomendación para evaluar un caso operativo.</p></div></div>
+ <div class="top"><div class="title"><h1><i class="ti ti-settings" aria-hidden="true" style="color:#39e6ff;margin-right:6px"></i>Consulta técnica guiada</h1><p>Estructura del bot de recomendación para evaluar un caso operativo.</p></div></div>
  <div class="grid two">
-  <div class="card"><h3>🧾 Condiciones del caso</h3><div class="grid two"><label>Temperatura °C<input type="number" placeholder="78"></label><label>pH<input type="number" step="0.1" placeholder="7.4"></label><label>Salinidad / TDS mg/L<input type="number" placeholder="56000"></label><label>Sólidos suspendidos mg/L<input type="number" placeholder="240"></label><label>H₂S mg/L<input type="number" placeholder="35"></label><label>Problema<select><option>Seleccionar...</option><option>Control microbiológico</option><option>Incrustación</option><option>Corrosión</option><option>Desemulsión</option><option>Parafina</option></select></label></div><label style="display:block;margin-top:10px">Observaciones<textarea rows="4" placeholder="Condiciones operativas, antecedentes, restricciones..."></textarea></label><p class="small warn">Esta pantalla conserva la estructura del prototipo. El HTML offline no inventa una recomendación técnica si no hay reglas/experiencias validadas cargadas para el caso.</p></div>
-  <div class="card"><h3>🔄 Flujo de análisis</h3><div class="step"><i>1</i><div><strong>Normalizar variables</strong><p>Unidades, rangos, nomenclaturas y calidad de datos.</p></div></div><div class="step"><i>2</i><div><strong>Buscar antecedentes similares</strong><p>Experiencias de campo y laboratorio comparables.</p></div></div><div class="step"><i>3</i><div><strong>Evaluar familias químicas</strong><p>Problema, mecanismo, formulación y compatibilidad.</p></div></div><div class="step"><i>4</i><div><strong>Calcular ranking</strong><p>Score ponderado y penalizaciones.</p></div></div><div class="step"><i>5</i><div><strong>Generar explicación</strong><p>Qué se confirma, qué se infiere y qué falta validar.</p></div></div></div>
+  <div class="card"><h3><i class="ti ti-clipboard-list" aria-hidden="true" style="color:#39e6ff;margin-right:6px"></i>Condiciones del caso</h3><div class="grid two"><label>Temperatura °C<input type="number" placeholder="78"></label><label>pH<input type="number" step="0.1" placeholder="7.4"></label><label>Salinidad / TDS mg/L<input type="number" placeholder="56000"></label><label>Sólidos suspendidos mg/L<input type="number" placeholder="240"></label><label>H₂S mg/L<input type="number" placeholder="35"></label><label>Problema<select><option>Seleccionar...</option><option>Control microbiológico</option><option>Incrustación</option><option>Corrosión</option><option>Desemulsión</option><option>Parafina</option></select></label></div><label style="display:block;margin-top:10px">Observaciones<textarea rows="4" placeholder="Condiciones operativas, antecedentes, restricciones..."></textarea></label><p class="small warn">Esta pantalla conserva la estructura del prototipo. El HTML offline no inventa una recomendación técnica si no hay reglas/experiencias validadas cargadas para el caso.</p></div>
+  <div class="card"><h3><i class="ti ti-refresh" aria-hidden="true" style="color:#3dffb0;margin-right:6px"></i>Flujo de análisis</h3><div class="step"><i>1</i><div><strong>Normalizar variables</strong><p>Unidades, rangos, nomenclaturas y calidad de datos.</p></div></div><div class="step"><i>2</i><div><strong>Buscar antecedentes similares</strong><p>Experiencias de campo y laboratorio comparables.</p></div></div><div class="step"><i>3</i><div><strong>Evaluar familias químicas</strong><p>Problema, mecanismo, formulación y compatibilidad.</p></div></div><div class="step"><i>4</i><div><strong>Calcular ranking</strong><p>Score ponderado y penalizaciones.</p></div></div><div class="step"><i>5</i><div><strong>Generar explicación</strong><p>Qué se confirma, qué se infiere y qué falta validar.</p></div></div></div>
  </div>
 </section>
 <section id="metodo" class="view">
- <div class="top"><div class="title"><h1>📐 Metodología del motor</h1><p>Modelo explicable de recomendación técnica.</p></div></div>
- <div class="grid two"><div class="card"><h3>⚖️ Pesos de recomendación</h3><div class="step"><i>35</i><div><strong>Desempeño histórico — 35%</strong><p>Resultado observado, repetibilidad, dosis y condiciones similares.</p></div></div><div class="step"><i>30</i><div><strong>Ajuste fisicoquímico — 30%</strong><p>Temperatura, pH, salinidad, sólidos, H₂S, dureza y hierro.</p></div></div><div class="step"><i>20</i><div><strong>Compatibilidad química — 20%</strong><p>Interacción con otros tratamientos y matriz del fluido.</p></div></div><div class="step"><i>15</i><div><strong>Disponibilidad — 15%</strong><p>Stock, lead time, proveedor y sustitutos posibles.</p></div></div></div><div class="card"><h3>🎯 Niveles de confianza</h3><p><span class="pill">🟢 Alta ≥ 80%</span><span class="pill">🟡 Media 65–79%</span><span class="pill">🔴 Baja &lt; 65%</span></p><p class="small">La recomendación debe distinguir datos confirmados, inferencias, evidencia histórica e información faltante. La suma de pesos del motor debe ser 100%.</p><h3 style="margin-top:22px">🛡️ Gobernanza</h3><p class="small">No recomendar productos obsoletos, no inferir composición química por nombre comercial y exigir validación cuando la regla aplicable lo indique.</p></div></div>
+ <div class="top"><div class="title"><h1><i class="ti ti-ruler-2" aria-hidden="true" style="color:#39e6ff;margin-right:6px"></i>Metodología del motor</h1><p>Modelo explicable de recomendación técnica.</p></div></div>
+ <div class="grid two"><div class="card"><h3><i class="ti ti-scale" aria-hidden="true" style="color:#39e6ff;margin-right:6px"></i>Pesos de recomendación</h3><div class="step"><i>35</i><div><strong>Desempeño histórico — 35%</strong><p>Resultado observado, repetibilidad, dosis y condiciones similares.</p></div></div><div class="step"><i>30</i><div><strong>Ajuste fisicoquímico — 30%</strong><p>Temperatura, pH, salinidad, sólidos, H₂S, dureza y hierro.</p></div></div><div class="step"><i>20</i><div><strong>Compatibilidad química — 20%</strong><p>Interacción con otros tratamientos y matriz del fluido.</p></div></div><div class="step"><i>15</i><div><strong>Disponibilidad — 15%</strong><p>Stock, lead time, proveedor y sustitutos posibles.</p></div></div></div><div class="card"><h3><i class="ti ti-target" aria-hidden="true" style="color:#ffcf4d;margin-right:6px"></i>Niveles de confianza</h3><p><span class="pill"><i class="ti ti-circle-filled" style="font-size:8px;color:#3dffb0;margin-right:4px" aria-hidden="true"></i>Alta ≥ 80%</span><span class="pill"><i class="ti ti-circle-filled" style="font-size:8px;color:#ffcf4d;margin-right:4px" aria-hidden="true"></i>Media 65–79%</span><span class="pill"><i class="ti ti-circle-filled" style="font-size:8px;color:#ff7b86;margin-right:4px" aria-hidden="true"></i>Baja &lt; 65%</span></p><p class="small">La recomendación debe distinguir datos confirmados, inferencias, evidencia histórica e información faltante. La suma de pesos del motor debe ser 100%.</p><h3 style="margin-top:22px"><i class="ti ti-shield-check" aria-hidden="true" style="color:#a78bfa;margin-right:6px"></i>Gobernanza</h3><p class="small">No recomendar productos obsoletos, no inferir composición química por nombre comercial y exigir validación cuando la regla aplicable lo indique.</p></div></div>
 </section>
 </main>
 </div>
@@ -407,7 +494,7 @@ function init(){
  document.getElementById('kStock').textContent=STOCK.length.toLocaleString('es-AR');
  let ok=0,other=0;products.forEach(p=>{let t=totalOf(rowsOf(p));Math.abs(t-200)<.001?ok++:other++});
  document.getElementById('quality').innerHTML=`<p><span class="pill">${ok} fórmulas suman 200</span><span class="pill">${other} con otra base</span></p><p class="small">Por eso el sistema calcula el porcentaje contra el total real de cada producto.</p>`;
- document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(b.dataset.v).classList.add('active')});
+ document.querySelectorAll('.nav button, .nav-bottom button').forEach(b=>b.onclick=()=>{const v=b.dataset.v;document.querySelectorAll('.nav button, .nav-bottom button').forEach(x=>x.classList.toggle('active',x.dataset.v===v));document.querySelectorAll('.view').forEach(el=>el.classList.toggle('active',el.id===v))});
 }
 function showFormula(p){p=norm(p||document.getElementById('prodSearch').value);let rows=rowsOf(p),sum=totalOf(rows);let body=document.getElementById('formulaRows'); if(!rows.length){document.getElementById('formulaSummary').innerHTML='<span class="warn">No encontré esa fórmula.</span>';body.innerHTML='';return}
  document.getElementById('prodSearch').value=p;
@@ -473,6 +560,27 @@ function answer(q){let u=norm(q),ps=findProductIn(q),ms=findMPIn(q),terms=findCo
 function send(){let i=document.getElementById('q'),q=i.value.trim();if(!q)return;let c=document.getElementById('chatbox');c.insertAdjacentHTML('beforeend',`<div class="msg user">${esc(q)}</div>`);c.insertAdjacentHTML('beforeend',`<div class="msg bot">${answer(q)}</div>`);c.scrollTop=c.scrollHeight;i.value=''}
 function askHint(t){document.getElementById('q').value=t;send()}
 init();
+(function(){
+  var splash = document.getElementById('splash');
+  if(!splash) return;
+  var arc = document.getElementById('loaderArc');
+  var pct = document.getElementById('loaderPct');
+  var CIRC = 264;
+  var dismissed = false;
+  function dismiss(){ if(dismissed) return; dismissed = true; splash.classList.add('hide'); setTimeout(()=>splash.remove(), 550); }
+  var start = null, DURATION = 1800;
+  function step(ts){
+    if(!start) start = ts;
+    var p = Math.min(1, (ts - start) / DURATION);
+    var eased = 1 - Math.pow(1 - p, 2);
+    var val = Math.round(eased * 100);
+    if(arc) arc.style.strokeDashoffset = CIRC - (CIRC * eased);
+    if(pct) pct.textContent = val + '%';
+    if(p < 1){ requestAnimationFrame(step); } else { setTimeout(dismiss, 250); }
+  }
+  requestAnimationFrame(step);
+  splash.addEventListener('click', dismiss);
+})();
 if('serviceWorker' in navigator && (location.protocol==='https:'||location.protocol==='http:')){
   window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 }
