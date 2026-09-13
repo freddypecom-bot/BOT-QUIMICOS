@@ -207,6 +207,8 @@ body.splashing .chem-orb,body.splashing .molecule,body.splashing .flask,body.spl
 .suggest-item{padding:10px 14px;font-size:14px;color:var(--txt);cursor:pointer;border-bottom:1px solid rgba(255,255,255,.05)}
 .suggest-item:last-child{border-bottom:0}
 .suggest-item:hover,.suggest-item:active{background:var(--panel2)}
+button.ghost-btn{border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer;background:var(--panel2);color:var(--muted);display:inline-flex;align-items:center;white-space:nowrap}
+button.ghost-btn:hover{color:var(--txt);border-color:var(--cyan)}
 .icn{display:inline-flex;vertical-align:-3px}
 .icn-svg{width:1em;height:1em}
 .chem-orb{opacity:.74}
@@ -458,13 +460,13 @@ body.splashing .chem-orb,body.splashing .molecule,body.splashing .flask,body.spl
 <section id="formula" class="view">
  <div class="top"><div class="title"><h1><span class="icn" style="color:#39e6ff;margin-right:6px"><svg class="icn-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M8 21h8M12 21v-5M8 16h8l-2-4h-4l-2 4zM10 12l4-8M15 3l-3 2"/><circle cx="13" cy="5" r="1.6"/></svg></span>Consulta de fórmula</h1><p>Buscá un producto y revisá su composición completa.</p></div></div>
  <div class="card" style="position:relative">
-   <div class="toolbar"><div style="position:relative;flex:1;min-width:260px"><input id="prodSearch" autocomplete="off" placeholder="Ej.: BX715, IC7058, CYB636"><div id="prodSuggest" class="suggest-list"></div></div><button class="primary" onclick="showFormula()"><span class="icn" style="margin-right:5px"><svg class="icn-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10 3h4v6l5 9a2 2 0 0 1-1.8 3H6.8A2 2 0 0 1 5 18l5-9V3z" stroke-linejoin="round"/><path d="M9 3h6"/></svg></span>Ver fórmula</button></div>
+   <div class="toolbar"><div style="position:relative;flex:1;min-width:260px"><input id="prodSearch" autocomplete="off" placeholder="Ej.: BX715, IC7058, CYB636"><div id="prodSuggest" class="suggest-list"></div></div><button class="primary" onclick="showFormula()"><span class="icn" style="margin-right:5px"><svg class="icn-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10 3h4v6l5 9a2 2 0 0 1-1.8 3H6.8A2 2 0 0 1 5 18l5-9V3z" stroke-linejoin="round"/><path d="M9 3h6"/></svg></span>Ver fórmula</button><button class="ghost-btn" onclick="limpiarFormula()"><span class="icn" style="margin-right:5px"><svg class="icn-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg></span>Limpiar</button></div>
    <div id="formulaSummary" style="margin-top:14px"></div>
    <div class="tablewrap" style="margin-top:12px"><table><thead><tr><th>Componente</th><th>Cantidad</th><th>UM</th><th>% fórmula</th><th>Densidad</th><th>Compuesto</th><th>Origen</th><th>Lead time</th></tr></thead><tbody id="formulaRows"></tbody></table></div>
  </div>
 </section>
 <section id="chat" class="view">
- <div class="top"><div class="title"><h1><span class="icn" style="color:#39e6ff;margin-right:6px"><svg class="icn-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 5h16v11H9l-4 4V5z" stroke-linejoin="round"/><circle cx="9" cy="10.5" r="1" fill="currentColor" stroke="none"/><circle cx="13" cy="10.5" r="1" fill="currentColor" stroke="none"/><circle cx="17" cy="10.5" r="1" fill="currentColor" stroke="none"/></svg></span>Chatbot de fórmulas</h1><p>Consultas rápidas sobre composición, porcentajes, materias primas y comparación.</p></div></div>
+ <div class="top"><div class="title"><h1><span class="icn" style="color:#39e6ff;margin-right:6px"><svg class="icn-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 5h16v11H9l-4 4V5z" stroke-linejoin="round"/><circle cx="9" cy="10.5" r="1" fill="currentColor" stroke="none"/><circle cx="13" cy="10.5" r="1" fill="currentColor" stroke="none"/><circle cx="17" cy="10.5" r="1" fill="currentColor" stroke="none"/></svg></span>Chatbot de fórmulas</h1><p>Consultas rápidas sobre composición, porcentajes, materias primas y comparación.</p></div><button class="ghost-btn" onclick="limpiarChat()"><span class="icn" style="margin-right:5px"><svg class="icn-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg></span>Limpiar chat</button></div>
  <div class="card">
   <div class="chatbox" id="chatbox"><div class="msg bot">Podés consultar por producto, materia prima o nombre de compuesto. También puedo cruzar varios componentes y decirte qué fórmulas los utilizan.</div></div>
   <div class="hint"><button onclick="askHint('¿Qué tiene BX715?')">¿Qué tiene BX715?</button><button onclick="askHint('¿Qué porcentaje de SV-0765 tiene BX715?')">% de una MP</button><button onclick="askHint('¿Qué productos usan QO-0941?')">Productos que usan una MP</button><button onclick="askHint('¿Qué fórmulas usan SV-0701 y SV-0712?')">Cruzar componentes</button><button onclick="askHint('¿Qué productos contienen Metanol?')">Buscar por compuesto</button><button onclick="askHint('Compará BX715 con BX707')">Comparar fórmulas</button></div>
@@ -587,6 +589,17 @@ function answer(q){let u=norm(q),ps=findProductIn(q),ms=findMPIn(q),terms=findCo
 }
 function send(){let i=document.getElementById('q'),q=i.value.trim();if(!q)return;let c=document.getElementById('chatbox');c.insertAdjacentHTML('beforeend',`<div class="msg user">${esc(q)}</div>`);c.insertAdjacentHTML('beforeend',`<div class="msg bot">${answer(q)}</div>`);c.scrollTop=c.scrollHeight;i.value=''}
 function askHint(t){document.getElementById('q').value=t;send()}
+function limpiarFormula(){
+  document.getElementById('prodSearch').value='';
+  document.getElementById('prodSuggest').style.display='none';
+  document.getElementById('formulaSummary').innerHTML='';
+  document.getElementById('formulaRows').innerHTML='';
+  document.getElementById('prodSearch').focus();
+}
+function limpiarChat(){
+  document.getElementById('chatbox').innerHTML='<div class="msg bot">Podés consultar por producto, materia prima o nombre de compuesto. También puedo cruzar varios componentes y decirte qué fórmulas los utilizan.</div>';
+  document.getElementById('q').value='';
+}
 function persistCustom(){ localStorage.setItem('bot_pq_custom', JSON.stringify(CUSTOM)); }
 function refreshCounts(){
   document.getElementById('kProd').textContent=products.length.toLocaleString('es-AR');
