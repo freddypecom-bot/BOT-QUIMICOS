@@ -1,5 +1,5 @@
 // sw.js — cachea la app para que abra offline una vez instalada
-const CACHE = 'bot-pq-v5';
+const CACHE = 'bot-pq-v9';
 const ASSETS = ['./index.html', './manifest.json', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', (e) => {
